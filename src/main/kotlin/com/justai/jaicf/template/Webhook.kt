@@ -10,8 +10,9 @@ fun main() {
     embeddedServer(Netty, System.getenv("PORT")?.toInt() ?: 8080) {
         routing {
             httpBotRouting("/" to AliceChannel(
-                skill,
-                System.getenv("OAUTH_TOKEN") ?: "OR PLACE YOUR OAUTH TOKEN HERE"))
+                skill
+                , System.getenv("OAUTH_TOKEN") ?: "OR PLACE YOUR OAUTH TOKEN HERE"
+            ))
         }
     }.start(wait = true)
 }
