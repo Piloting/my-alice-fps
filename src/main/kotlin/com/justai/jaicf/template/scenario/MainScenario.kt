@@ -68,35 +68,11 @@ object MainScenario: Scenario(
             activators {
                 event(AliceEvent.START)
             }
-
             action {
                 reactions.run {
                     say("Вас приветствует Сервис быстрых платежей. Могу помочь сделать перевод по номеру телефона или рассказать, что я умею")
                     buttons("Перевод", "Что умеешь?", "Кто тебя создал?")
                 }
-            }
-        }
-
-        state("yes") {
-            activators {
-                regex("да .*")
-                regex("да")
-                regex(".*сделать перевод.*")
-            }
-
-            action {
-                reactions.say("Если хотите сделать перевод просто скажите получателя и сумму")
-            }
-        }
-        
-        state("payFail") {
-            activators {
-                regex(".*тысяч .*")
-                regex(".*5000.*")
-            }
-
-            action {
-                reactions.say("На вашем счете не достаточно средств для перевода такой суммы")
             }
         }
         
@@ -109,13 +85,37 @@ object MainScenario: Scenario(
                 reactions.say("Остаток на вашем счете составляет тысяча двести восемьдесят три рубля тридцать три копейки")
             }
         }
+        
+        state("yes") {
+            activators {
+                regex("да .*")
+                regex("да")
+                regex(".*сделать перевод.*")
+            }
+            action {
+                reactions.say("Если хотите сделать перевод просто скажите получателя и сумму")
+            }
+        }
+        
+        
+        
+        state("payFail") {
+            activators {
+                regex(".*тысяч .*")
+                regex(".*5000.*")
+            }
+            action {
+                reactions.say("На вашем счете не достаточно средств для перевода такой суммы")
+            }
+        }
+        
+        
 
         state("pay") {
             activators {
                 regex(".*тысячу.*")
                 regex(".*1000.*")
             }
-
             action {
                 reactions.say("Просьба подтвердить перевод одной тысячи рублей на номер 8 951 370 36 47")
             }
@@ -126,7 +126,6 @@ object MainScenario: Scenario(
                 regex(".*подтверждаю.*")
                 regex(".*верно.*")
             }
-
             action {
                 reactions.say("Выполняю перевод, вскоре вам предет уведомление о переводе. Могу еще чем-то помочь?")
             }
@@ -136,7 +135,6 @@ object MainScenario: Scenario(
             activators {
                 regex(".*(нет|не хочу|отстань|хватит|до свидания|передумал).*")
             }
-
             action {
                 reactions.say("До свидания")
                 reactions.alice?.endSession()
@@ -147,7 +145,6 @@ object MainScenario: Scenario(
             activators {
                 regex(".*(умеешь|навык|еще).*")
             }
-
             action {
                 reactions.say("Я тестовый пример и умею очень мало")
             }
@@ -157,7 +154,6 @@ object MainScenario: Scenario(
             activators {
                 regex(".*(создал|разраб).*")
             }
-
             action {
                 reactions.say("Я всего лишь тестовый пример. Но написали меня не тестовые, а " +
                         "самые настоящие профессиональные программисты из компании Диасофт. Они умеют писать очень крутые вещи")
